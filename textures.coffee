@@ -30,30 +30,27 @@ umd ->
     id = rand()
 
     circles = () ->
-      g = @append "defs"
-          .append "pattern"
-          .attr
-            id: id
-            patternUnits: "userSpaceOnUse"
-            width: size
-            height: size
+      g = V("<pattern/>").attr
+        id: id
+        patternUnits: "userSpaceOnUse"
+        width: size
+        height: size
       if background
-        g.append "rect"
-          .attr
-            width: size
-            height: size
-            fill: background
-      g.append "circle"
-        .attr
-          cx: size / 2
-          cy: size / 2
-          r: radius
-          fill: fill
-          stroke: stroke
-          "stroke-width": strokeWidth
+        g.append V("<rect/>").attr
+          width: size
+          height: size
+          fill: background
+      g.append V("<circle/>").attr
+        cx: size / 2
+        cy: size / 2
+        r: radius
+        fill: fill
+        stroke: stroke
+        "stroke-width": strokeWidth
+      V(@defs).append(g)
       if complement
         for corner in [ [ 0, 0 ], [ 0, size ], [ size, 0 ], [ size, size ] ]
-          g.append "circle"
+          g.append V("<circle/>")
             .attr
               cx: corner[0]
               cy: corner[1]
@@ -177,22 +174,19 @@ umd ->
           "M #{s/2}, 0 l 0, #{s}"
 
     lines = () ->
-      g = @append "defs"
-          .append "pattern"
-          .attr
+      g = V("<pattern/>").attr
             id: id
             patternUnits: "userSpaceOnUse"
             width: size
             height: size
+      V(@defs).append(g)
       if background
-        g.append "rect"
-          .attr
+        g.append V("<rect/>").attr
             width: size
             height: size
             fill: background
       for o in orientation
-        g.append "path"
-          .attr
+        g.append V("<path/>").attr
             d: path o
             "stroke-width": strokeWidth
             "shape-rendering": shapeRendering
@@ -315,21 +309,18 @@ umd ->
     paths = () ->
       path = svgPath d
       id = rand()
-      g = @append "defs"
-        .append "pattern"
-        .attr
+      g = V("<pattern/>").attr
           id: id
           patternUnits: "userSpaceOnUse"
           width: size * width
           height: size * height
+      V(@defs).append(g)
       if background
-        g.append "rect"
-          .attr
+        g.append V("<rect/>").attr
             width: size * width
             height: size * height
             fill: background
-      g.append "path"
-        .attr
+      g.append V("<path/>").attr
           d: path
           fill: fill
           "stroke-width": strokeWidth
